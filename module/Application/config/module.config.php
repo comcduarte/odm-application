@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Service\Factory\DatabaseAdapterFactory;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use comcduarte\ActionMenu\View\Helper\ActionMenu;
 
 return [
     'router' => [
@@ -33,9 +35,57 @@ return [
             ],
         ],
     ],
+    'acl' => [
+        'EVERYONE' => [
+            'home' => ['index'],
+        ],
+    ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
+        ],
+    ],
+    'log' => [
+        'syslogger' => [
+            'writers' => [
+                'syslog' => [
+                    'name' => \Laminas\Log\Writer\Syslog::class,
+                    'options' => [
+                        'application' => 'CHRONOS',
+                        'formatter' => [
+                            'name' => \Laminas\Log\Formatter\Simple::class,
+                            'options' => [
+                                'format' => '%priorityName%: %message% %extra%',
+                                'dateTimeFormat' => 'c',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'navigation' => [
+        'default' => [
+            'home' => [
+                'label' => 'Home',
+                'route' => 'home',
+                'order' => 0,
+            ],
+            'contact' => ['order' => '20'],
+            'job' => ['order' => '30'],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            'model-adapter' => DatabaseAdapterFactory::class,
+        ],
+    ],
+    'view_helpers' => [
+        'aliases' => [
+            'actionmenu' => ActionMenu::class,
+        ],
+        'factories' => [
+            ActionMenu::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],
     'view_manager' => [
@@ -45,7 +95,9 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'navigation'              => __DIR__ . '/../view/partials/navigation.phtml',
+            'flashmessenger'          => __DIR__ . '/../view/partials/flashmessenger.phtml',
+            'layout/layout'           => __DIR__ . '/../view/layout/custom-layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
