@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "adf61e3f02fc749393e1dd91d4b16516",
+    "content-hash": "5285ecac298df426c844b44db78db90f",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -56,60 +56,64 @@
             "time": "2023-09-01T21:10:07+00:00"
         },
         {
-            "name": "comcduarte/actionmenu",
+            "name": "dassociates/actionmenu",
             "version": "dev-develop",
             "source": {
                 "type": "git",
-                "url": "https://github.com/comcduarte/actionmenu.git",
-                "reference": "02c0bd9be19b57e51a8e97909e58fb380b95d5ea"
+                "url": "https://github.com/DASSOCIATES/ACTIONMENU.git",
+                "reference": "463c2aa823a6437ebab6e0c1b2dd2c78f222d4a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/comcduarte/actionmenu/zipball/02c0bd9be19b57e51a8e97909e58fb380b95d5ea",
-                "reference": "02c0bd9be19b57e51a8e97909e58fb380b95d5ea",
+                "url": "https://api.github.com/repos/DASSOCIATES/ACTIONMENU/zipball/463c2aa823a6437ebab6e0c1b2dd2c78f222d4a8",
+                "reference": "463c2aa823a6437ebab6e0c1b2dd2c78f222d4a8",
+                "shasum": ""
+            },
+            "require": {
+                "dassociates/html": "dev-develop"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "component": "dassociates\\ActionMenu",
+                    "config-provider": "dassociates\\ActionMenu\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dassociates\\ActionMenu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "homepage": "https://github.com/dassociates/actionmenu",
+            "support": {
+                "issues": "https://github.com/DASSOCIATES/ACTIONMENU/issues",
+                "source": "https://github.com/DASSOCIATES/ACTIONMENU/tree/develop"
+            },
+            "time": "2024-05-10T15:32:34+00:00"
+        },
+        {
+            "name": "dassociates/html",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DASSOCIATES/HTML.git",
+                "reference": "23544dacc804d484d44b4e08562893c0628bcb7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DASSOCIATES/HTML/zipball/23544dacc804d484d44b4e08562893c0628bcb7a",
+                "reference": "23544dacc804d484d44b4e08562893c0628bcb7a",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-view": "~2.34"
             },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "component": "comcduarte\\ActionMenu",
-                    "config-provider": "comcduarte\\ActionMenu\\ConfigProvider"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "comcduarte\\ActionMenu\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "homepage": "https://github.com/comcduarte/actionmenu",
-            "support": {
-                "source": "https://github.com/comcduarte/actionmenu/tree/develop"
-            },
-            "time": "2024-05-07T18:12:36+00:00"
-        },
-        {
-            "name": "comcduarte/laminas-html",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/comcduarte/laminas-html.git",
-                "reference": "1050a3101becdf818213d39da9a3d03cf7793052"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/comcduarte/laminas-html/zipball/1050a3101becdf818213d39da9a3d03cf7793052",
-                "reference": "1050a3101becdf818213d39da9a3d03cf7793052",
-                "shasum": ""
-            },
             "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Laminas\\Html\\": "src/"
+                    "Dassociates\\Html\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -117,15 +121,17 @@
                 "BSD-3-Clause"
             ],
             "description": "Object-Oriented Implementation of HTML",
+            "homepage": "https://www.dassociatesinc.com",
             "keywords": [
                 "html",
                 "laminas"
             ],
             "support": {
-                "issues": "https://github.com/comcduarte/laminas-html/issues",
-                "source": "https://github.com/comcduarte/laminas-html/tree/develop"
+                "email": "cduarte@dassociatesinc.com",
+                "issues": "https://github.com/dassociates/html/issues",
+                "source": "https://github.com/DASSOCIATES/HTML/tree/develop"
             },
-            "time": "2023-02-06T20:48:38+00:00"
+            "time": "2024-05-10T16:42:47+00:00"
         },
         {
             "name": "laminas/laminas-authentication",
@@ -7313,8 +7319,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "comcduarte/laminas-html": 20,
-        "comcduarte/actionmenu": 20
+        "dassociates/html": 20,
+        "dassociates/actionmenu": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

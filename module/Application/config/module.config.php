@@ -8,7 +8,7 @@ use Application\Service\Factory\DatabaseAdapterFactory;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use comcduarte\ActionMenu\View\Helper\ActionMenu;
+use Dassociates\ActionMenu\View\Helper\ActionMenu;
 
 return [
     'router' => [

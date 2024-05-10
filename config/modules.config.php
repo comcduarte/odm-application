@@ -6,7 +6,7 @@
  * This should be an array of module namespaces used in the application.
  */
 return [
-    'comcduarte\ActionMenu',
+    'Dassociates\ActionMenu',
     'Laminas\Navigation',
     'Laminas\Mvc\Plugin\FilePrg',
     'Laminas\Mvc\Plugin\FlashMessenger',

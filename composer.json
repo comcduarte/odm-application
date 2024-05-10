@@ -33,8 +33,8 @@
 		"laminas/laminas-session" : "~2.20",
 		"laminas/laminas-i18n" : "~2.26",
 		"laminas/laminas-authentication" : "~2.16",
-		"comcduarte/laminas-html" : "dev-develop",
-		"comcduarte/actionmenu" : "dev-develop"
+		"dassociates/html" : "dev-develop",
+		"dassociates/actionmenu" : "dev-develop"
 	},
 	"require-dev" : {
 		"dealerdirect/phpcodesniffer-composer-installer" : "^1.0",
