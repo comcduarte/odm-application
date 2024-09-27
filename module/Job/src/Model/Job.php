@@ -7,11 +7,10 @@ use Components\Model\AbstractBaseModel;
 
 class Job extends AbstractBaseModel
 {
-    /**
-     * Job Number.  Auto incrementing
-     * @var string
-     */
-    public $JOB_NUM;
+    const OPEN_STATUS = 3;
+    const CANCELED_STATUS = 4;
+    const UNABLE_TO_FILL_STATUS = 5;
+    const WORK_REASON_STATUS = 6;
     
     /**
      * 
@@ -41,7 +40,13 @@ class Job extends AbstractBaseModel
      * 
      * @var string
      */
-    public $CONTACT_UUID;
+    public $CONTACT;
+    
+    /**
+     * 
+     * @var string
+     */
+    public $COMPANY_UUID;
     
     /**
      * 
@@ -67,9 +72,29 @@ class Job extends AbstractBaseModel
      */
     public $CRUISER;
     
+    /**
+     * @var string
+     */
+    public $EMP_UUID;
+    
     public function __construct($adapter = NULL)
     {
         parent::__construct($adapter);
         $this->setTableName('job');
+    }
+    
+    public static function retrieveStatus($status)
+    {
+        $statuses = [
+            NULL => 'Inactive',
+            self::INACTIVE_STATUS => 'Inactive',
+            self::ACTIVE_STATUS => 'Active',
+            self::OPEN_STATUS => 'Open',
+            self::CANCELED_STATUS => 'Canceled',
+            self::UNABLE_TO_FILL_STATUS => 'Unable to Fill',
+            self::WORK_REASON_STATUS => 'Work Reason',
+        ];
+        
+        return $statuses[$status];
     }
 }

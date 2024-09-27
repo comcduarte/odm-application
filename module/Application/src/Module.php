@@ -6,7 +6,7 @@ namespace Application;
 
 class Module
 {
-    const TITLE = 'Off Duty Management';
+    const TITLE = 'Private Duty Hiring';
     const VERSION = '0.0.1';
     
     public function getConfig(): array

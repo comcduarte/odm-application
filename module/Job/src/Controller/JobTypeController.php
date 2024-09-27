@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Roster\Controller;
+namespace Job\Controller;
 
 use Components\Controller\AbstractBaseController;
 
-class RosterController extends AbstractBaseController
+class JobTypeController extends AbstractBaseController
 {
+    
 }

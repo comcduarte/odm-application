@@ -1,0 +1,10 @@
+<?php 
+/**
+ * @var $form AddJobForm
+ */
+$form->setAttribute('action', $this->url('job/default', ['action' => 'create']));
+$form->prepare();
+echo $this->form()->openTag($form); 
+echo $this->formCollection($form); 
+echo $this->form()->closeTag($form); 
+?>

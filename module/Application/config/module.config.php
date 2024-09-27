@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Application;
 
 use Application\Service\Factory\DatabaseAdapterFactory;
+use Dassociates\ActionMenu\View\Helper\ActionMenu;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Dassociates\ActionMenu\View\Helper\ActionMenu;
 
 return [
     'router' => [
@@ -33,15 +33,30 @@ return [
                     ],
                 ],
             ],
+            'import' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/import[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\ImportController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'acl' => [
         'EVERYONE' => [
             'home' => ['index'],
         ],
+        'admin' => [
+            'application' => [],
+            'import' => [],
+        ],
     ],
     'controllers' => [
         'factories' => [
+            Controller\ImportController::class => Controller\Factory\ImportControllerFactory::class,
             Controller\IndexController::class => InvokableFactory::class,
         ],
     ],
@@ -76,6 +91,9 @@ return [
         ],
     ],
     'service_manager' => [
+        'aliases' => [
+            'employee-model-adapter-config' => 'model-adapter-config',
+        ],
         'factories' => [
             'model-adapter' => DatabaseAdapterFactory::class,
         ],
@@ -95,8 +113,6 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => [
-            'navigation'              => __DIR__ . '/../view/partials/navigation.phtml',
-            'flashmessenger'          => __DIR__ . '/../view/partials/flashmessenger.phtml',
             'layout/layout'           => __DIR__ . '/../view/layout/custom-layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',

@@ -16,3 +16,6 @@
 [submodule "module/Contact"]
 	path = module/Contact
 	url = git@github.com:comcduarte/com-contact.git
+[submodule "module\\Employee"]
+	path = module\\Employee
+	url = git@github.com:comcduarte/com-employee.git

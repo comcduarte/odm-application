@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-include_path=0;/odm.dev.local
+include_path=0;/odm.dev.local\u00052;/dassociates-actionmenu\u00052;/dassociates-bootstrap\u00052;/dassociates-html
 phpVersion=php8.2
 use_asp_tags_as_php=false

@@ -3,16 +3,14 @@ declare(strict_types=1);
 
 namespace Job\Form\Factory;
 
-use Job\Form\JobForm;
+use Job\Form\JobTypeForm;
 use Psr\Container\ContainerInterface;
 
-class JobFormFactory
+class JobTypeFormFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $form = new JobForm();
-        $adapter = $container->get('job-model-adapter');
-        $form->setDbAdapter($adapter);
+        $form = new JobTypeForm();
         return $form;
     }
 }

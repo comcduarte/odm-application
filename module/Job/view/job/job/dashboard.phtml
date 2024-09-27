@@ -1,1 +1,165 @@
-Dashboard
+<?php 
+use Dassociates\Html\Div;
+use Job\Form\JobForm;
+
+$column_classes = "col-lg";
+
+$color = [
+    1 => 'dark',
+    2 => 'danger',
+    3 => 'primary',
+    4 => 'danger',
+    5 => 'success',
+    6 => 'secondary',
+];
+?>
+
+<div class="d-flex flex-row-reverse bg-info-subtle pt-2 pe-2">
+<?php 
+$date_filter_form->prepare(); 
+$date_filter_form->setAttribute('action', $this->url('job/default', ['action' => 'filter']));
+echo $this->form()->openTag($date_filter_form);
+?>
+	<div class="row">
+		<div class="col">
+			<?php echo $this->formRow($date_filter_form->get('START_DATE')); ?>
+		</div>
+		<div class="col">
+			<?php echo $this->formRow($date_filter_form->get('END_DATE')); ?>
+		</div>
+		<div class="col">
+			<?php echo $this->formRow($date_filter_form->get('SUBMIT')); ?>
+		</div>
+	</div>
+	<?php echo $this->form()->closeTag($date_filter_form); ?>
+</div>
+
+
+<div class='row'>
+	<div class='col-9'>
+		<!-- Job Column -->
+
+<?php foreach ($forms as $form) : ?>
+<?php 
+/**
+ * @var $form JobForm
+ */
+$form->prepare();
+echo $this->form()->openTag($form); 
+
+$status = $form->get('STATUS')->getValue();
+?>
+<div class='row border border-<?=$color[$status]?> bg-<?=$color[$status]?>-subtle rounded m-2 p-2'>
+	<div class='<?=$column_classes?> col-lg-1'>
+		<?php echo $this->formRow($form->get('UUID')); ?>
+		<?php echo $this->formRow($form->get('STATUS')); ?>
+		<?php echo $this->formRow($form->get('SECURITY')); ?>
+		<button class='btn btn-danger badge form-control mt-2'>Delete</button>
+<!-- 		<button class='btn btn-warning badge form-control mt-2'>Unable to Fill</button> -->
+<!-- 		<button class='btn btn-dark badge form-control mt-2'>Work Reason</button> -->
+<!-- 		<button class='btn btn-primary badge form-control mt-2'>Reinstate Job</button> -->
+		<button class='btn btn-success badge form-control mt-2' onclick='onchange="this.form.submit()"'>Update</button>
+	</div>
+	<div class='<?=$column_classes?> col-lg-3'>
+		<div class='row'>
+			<div class='row'>
+    			<?php echo $this->formRow($form->get('TYPE_UUID')); ?>
+    		</div>
+    		<div class='row'>
+    			<?php echo $this->formRow($form->get('CONTACT')); ?>
+    		</div>
+    		<div class='row'>
+    			<?php echo $this->formRow($form->get('COMPANY_UUID')); ?>
+    		</div>
+    		<div class='row'>
+    			<?php echo $this->formRow($form->get('LOCATION')); ?>
+    		</div>
+		</div>
+	</div>
+	<div class='<?=$column_classes?> col-lg-2'>
+		<div class='row'>
+			<?php echo $this->formRow($form->get('REQUESTED_START')); ?>
+		</div>
+		<div class='row'>
+			<?php echo $this->formRow($form->get('REQUESTED_END')); ?>
+		</div>
+		<div class='row'>
+			<?php echo $this->formRow($form->get('EMP_UUID')); ?>
+		</div>
+	</div>
+	<div class='<?=$column_classes?>'>
+<!-- 
+		<div class='row'>
+ 			<?php echo $this->formRow($form->get('COMMENT')); ?>
+ 		</div>
+-->
+		<div class='row'>
+			<?php echo $this->formLabel($form->get('COMMENT'));?>
+    		<div class='input-group'>
+    			<?php echo $this->formTextarea($form->get('COMMENT')); ?>
+    			<a href="" class='btn btn-outline-secondary' data-bs-toggle="modal" data-bs-target="#add_annotation_<?php echo $form->get('UUID')->getValue(); ?>">Add</a>
+    		</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag($form); ?>
+<?php endforeach; ?>
+
+	</div>
+	<div class='col'>
+		<div class='row'>
+			<div class='col border rounded m-2 p-2'>
+				<!-- Roster Column -->
+				<?php 
+				    echo $this->partial('base/subtable', [
+				        'title' => 'Roster',
+				        'data' => $roster_data,
+				        'params' => [
+				            [
+				                'action' => 'assign',
+				                'label' => 'Assign to Job',
+				                'route' => 'job/default',
+				                'key' => 'UUID',
+				            ],
+				            [
+				                'action' => 'refuse',
+				                'label' => 'Refused',
+				                'route' => 'job/default',
+				                'key' => 'UUID',
+				            ],
+				            [
+				                'action' => 'ascend',
+				                'label' => 'Ascend',
+				                'route' => 'job/default',
+				                'key' => 'UUID',
+				            ],
+				        ],
+				        'primary_key' => 'UUID',
+				    ]);
+				?>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<?php echo $this->partial('job/jobtype/create.phtml', ['form' => $add_job_type_form]); ?>
+
+<?php echo $this->partial('base/modal', [
+    'form' => $add_contact_form,
+    'title' => $add_contact_title,
+    'id' => $add_contact_id,
+    'attributes' => $add_contact_attributes,
+]); ?>
+
+
+<?php 
+foreach ($modals as $modal) {
+    echo $this->partial('base/modal', [
+        'form' => $modal,
+        'title' => $add_annotation_title,
+        'id' => sprintf('add_annotation_%s', $modal->get('PRIKEY')->getValue()),
+        'attributes' => $add_annotation_attributes,
+    ]);
+}
+?>

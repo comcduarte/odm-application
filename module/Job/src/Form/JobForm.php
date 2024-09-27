@@ -4,33 +4,38 @@ declare(strict_types=1);
 namespace Job\Form;
 
 use Components\Form\AbstractBaseForm;
+use Components\Form\Element\DatabaseSelect;
+use Job\Model\Job;
+use Laminas\Db\Adapter\AdapterAwareTrait;
 use Laminas\Form\Element\Checkbox;
-use Laminas\Form\Element\Date;
+use Laminas\Form\Element\DateTimeLocal;
 use Laminas\Form\Element\Text;
+use Roster\Model\Roster;
 
 class JobForm extends AbstractBaseForm
 {
+    use AdapterAwareTrait;
+    
     public function init()
     {
         parent::init();
         
-        $this->add([
-            'name' => 'JOB_NUM',
-            'type' => Text::class,
-            'attributes' => [
-                'class' => 'form-control',
-                'id' => 'JOB_NUM',
-                'required' => 'true',
-                'placeholder' => '',
+        $status = $this->get('STATUS');
+        $status->setOptions([
+            'value_options' => [
+                Job::INACTIVE_STATUS => 'Inactive',
+                Job::ACTIVE_STATUS => 'Active',
+                Job::CANCELED_STATUS => 'Canceled',
+                Job::OPEN_STATUS => 'Open',
+                Job::UNABLE_TO_FILL_STATUS => 'Unable to Fill',
+                Job::WORK_REASON_STATUS => 'Work Reason',
             ],
-            'options' => [
-                'label' => 'Job Number',
-            ],
-        ],['priority' => 100]);
+        ]);
+        $status->setAttribute('class', 'form-select form-select-sm');
         
         $this->add([
             'name' => 'REQUESTED_START',
-            'type' => Date::class,
+            'type' => DateTimeLocal::class,
             'attributes' => [
                 'class' => 'form-control',
                 'id' => 'REQUESTED_START',
@@ -44,7 +49,7 @@ class JobForm extends AbstractBaseForm
         
         $this->add([
             'name' => 'REQUESTED_END',
-            'type' => Date::class,
+            'type' => DateTimeLocal::class,
             'attributes' => [
                 'class' => 'form-control',
                 'id' => 'REQUESTED_END',
@@ -56,29 +61,73 @@ class JobForm extends AbstractBaseForm
             ],
         ],['priority' => 100]);
         
+//         $this->add([
+//             'name' => 'ACTUAL_START',
+//             'type' => DateTimeLocal::class,
+//             'attributes' => [
+//                 'class' => 'form-control',
+//                 'id' => 'ACTUAL_START',
+//                 'placeholder' => '',
+//             ],
+//             'options' => [
+//                 'label' => 'Actual Start Date',
+//             ],
+//         ],['priority' => 100]);
+        
+//         $this->add([
+//             'name' => 'ACTUAL_END',
+//             'type' => DateTimeLocal::class,
+//             'attributes' => [
+//                 'class' => 'form-control',
+//                 'id' => 'ACTUAL_END',
+//                 'placeholder' => '',
+//             ],
+//             'options' => [
+//                 'label' => 'Actual End Date',
+//             ],
+//         ],['priority' => 100]);
+        
         $this->add([
-            'name' => 'ACTUAL_START',
-            'type' => Date::class,
+            'name' => 'CONTACT',
+            'type' => Text::class,
             'attributes' => [
                 'class' => 'form-control',
-                'id' => 'ACTUAL_START',
+                'id' => 'CONTACT',
                 'placeholder' => '',
             ],
             'options' => [
-                'label' => 'Actual Start Date',
+                'label' => 'Contact',
             ],
         ],['priority' => 100]);
         
+//         $this->add([
+//             'name' => 'COMPANY',
+//             'type' => Text::class,
+//             'attributes' => [
+//                 'class' => 'form-control',
+//                 'id' => 'COMPANY',
+//                 'placeholder' => '',
+//             ],
+//             'options' => [
+//                 'label' => 'Company',
+//             ],
+//         ],['priority' => 100]);
+        
         $this->add([
-            'name' => 'ACTUAL_END',
-            'type' => Date::class,
+            'name' => 'COMPANY_UUID',
+            'type' => DatabaseSelect::class,
             'attributes' => [
                 'class' => 'form-control',
-                'id' => 'ACTUAL_END',
-                'placeholder' => '',
+                'id' => 'COMPANY_UUID',
             ],
             'options' => [
-                'label' => 'Actual End Date',
+                'label' => 'Company',
+                'database_adapter' => $this->adapter,
+                'database_table' => 'job_company',
+                'database_id_column' => 'UUID',
+                'database_value_columns' => [
+                    'NAME',
+                ],
             ],
         ],['priority' => 100]);
         
@@ -95,17 +144,22 @@ class JobForm extends AbstractBaseForm
             ],
         ],['priority' => 100]);
         
+        
         $this->add([
             'name' => 'TYPE_UUID',
-            'type' => Text::class,
+            'type' => DatabaseSelect::class,
             'attributes' => [
-                'class' => 'form-control',
+                'class' => 'form-select',
                 'id' => 'TYPE_UUID',
                 'required' => 'true',
                 'placeholder' => '',
             ],
             'options' => [
                 'label' => 'Job Type',
+                'database_table' => 'job_type',
+                'database_id_column' => 'UUID',
+                'database_value_columns' => ['TYPE'],
+                'database_adapter' => $this->adapter,
             ],
         ],['priority' => 100]);
         
@@ -127,12 +181,43 @@ class JobForm extends AbstractBaseForm
             'name' => 'CRUISER',
             'type' => Checkbox::class,
             'attributes' => [
-                'class' => 'form-control',
+                'class' => 'form-check-input',
                 'id' => 'CRUISER',
-                'placeholder' => '',
             ],
             'options' => [
+                'switch' => true,
                 'label' => 'Cruiser',
+                'label_attributes' => [
+                    'class' => 'form-check-label ms-2',
+                ],
+                'label_options' => [
+                    'label_position' => 'append',
+                ],
+                'use_hidden_element' => true,
+                'use_input_group' => true,
+            ],
+        ],['priority' => 100]);
+        
+        $roster = new Roster($this->adapter);
+        $roster->fetchEntities();
+        
+        $this->add([
+            'name' => 'EMP_UUID',
+            'type' => DatabaseSelect::class,
+            'attributes' => [
+                'class' => 'form-select',
+                'id' => 'EMP_UUID',
+                'required' => 'true',
+                'placeholder' => '',
+//                 'disabled' => true,
+            ],
+            'options' => [
+                'label' => 'Assigned Officer',
+                'database_object' => $roster->getSelect(),
+//                 'database_table' => 'employees',
+                'database_id_column' => 'UUID',
+                'database_value_columns' => ['EMP_NUM', 'LNAME', 'FNAME'],
+                'database_adapter' => $this->adapter,
             ],
         ],['priority' => 100]);
     }

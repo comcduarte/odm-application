@@ -6,7 +6,6 @@ namespace Job;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 
-
 return [
     'router' => [
         'routes' => [
@@ -32,6 +31,28 @@ return [
                             ],
                         ],
                     ],
+                    'dashboard' => [
+                        'type' => Segment::class,
+                        'priority' => 100,
+                        'options' => [
+                            'route' => '/dashboard[/:start_date[/:end_date]]',
+                            'defaults' => [
+                                'action' => 'dashboard',
+                                'controller' => Controller\JobController::class,
+                            ],
+                        ],
+                    ],
+                    'type' => [
+                        'type' => Segment::class,
+                        'priority' => 100,
+                        'options' => [
+                            'route' => '/type[/:action[/:uuid]]',
+                            'defaults' => [
+                                'action' => 'index',
+                                'controller' => Controller\JobTypeController::class,
+                            ],
+                        ],
+                    ],
                     'default' => [
                         'type' => Segment::class,
                         'priority' => -100,
@@ -51,17 +72,21 @@ return [
         'admin' => [
             'job/default' => [],
             'job/config' => [],
+            'job/type' => [],
+            'job/dashboard' => [],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\JobController::class => Controller\Factory\JobControllerFactory::class,
+            Controller\JobTypeController::class => Controller\Factory\JobTypeControllerFactory::class,
             Controller\JobConfigController::class => Controller\Factory\JobConfigControllerFactory::class,
         ],
     ],
     'form_elements' => [
         'factories' => [
             Form\JobForm::class => Form\Factory\JobFormFactory::class,
+            Form\JobTypeForm::class => Form\Factory\JobTypeFormFactory::class,
         ],
     ],
     'navigation' => [
@@ -81,18 +106,51 @@ return [
                         'privilege' => 'dashboard',
                     ],
                     [
-                        'label' => 'Add New Job',
-                        'route' => 'job/default',
-                        'action' => 'create',
+                        'label' => 'Types',
+                        'class' => 'dropdown-submenu',
+                        'route' => 'job/type',
+                        'action' => 'menu',
                         'resource' => 'job/default',
-                        'privilege' => 'create',
+                        'privilege' => 'menu',
+                        'pages' => [
+                            [
+                                'label' => 'Add New Job Type',
+                                'class' => 'dropdown',
+                                'route' => 'job/type',
+                                'action' => 'create',
+                                'resource' => 'job/type',
+                                'privilege' => 'create',
+                            ],
+                            [
+                                'label' => 'List Job Types',
+                                'route' => 'job/type',
+                                'action' => 'index',
+                                'resource' => 'job/type',
+                                'privilege' => 'index',
+                            ],
+                        ],
                     ],
                     [
-                        'label' => 'List Jobs',
-                        'route' => 'job/default',
-                        'action' => 'index',
-                        'resource' => 'job/default',
-                        'privilege' => 'index',
+                        'label' => 'Job',
+                        'class' => 'dropdown-submenu',
+                        'route' => 'job',
+                        'order' => 90,
+                        'pages' => [
+                            [
+                                'label' => 'Add New Job',
+                                'route' => 'job/default', 
+                                'action' => 'create',
+                                'resource' => 'job/default',
+                                'privilege' => 'create',
+                            ],
+                            [
+                                'label' => 'List Jobs',
+                                'route' => 'job/default',
+                                'action' => 'index',
+                                'resource' => 'job/default',
+                                'privilege' => 'index',
+                            ],
+                        ],
                     ],
                 ],
             ],
