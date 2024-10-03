@@ -9,9 +9,15 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\Sql;
 use Exception;
+use Laminas\EventManager\EventManagerAwareTrait;
 
 class Roster extends AbstractBaseModel
 {
+    use EventManagerAwareTrait;
+    
+    const INTERESTED_STATUS = 3;
+    const NOTINTERESTED_STATUS = 4;
+    
     public $EMP_UUID;
     public $POSITION;
     
@@ -20,6 +26,9 @@ class Roster extends AbstractBaseModel
         parent::__construct($adapter);
         
         $this->setTableName('roster');
+        
+        array_push($this->private_attributes, 'events');
+        $this->setPublicAttributes();
     }
     
     public function fetchEntities()
@@ -28,11 +37,11 @@ class Roster extends AbstractBaseModel
         
         $select = $this->getSelect();
         $select
-            ->columns(['UUID' => 'EMP_UUID', '#' => 'POSITION'])
+            ->columns(['UUID' => 'EMP_UUID', '#' => 'POSITION', 'STATUS' => 'STATUS'])
             ->from('roster')
             ->join('employees', 'employees.UUID = roster.EMP_UUID', ['EMP_NUM', 'FNAME', 'LNAME'], Join::JOIN_INNER);
             
-        $select->where(['roster.STATUS' => Roster::ACTIVE_STATUS]);
+//         $select->where(['roster.STATUS' => Roster::ACTIVE_STATUS]);
         $select->order('#');
         
         $statement = $sql->prepareStatementForSqlObject($select);

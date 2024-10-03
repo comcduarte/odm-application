@@ -36,7 +36,7 @@ echo $this->form()->openTag($date_filter_form);
 
 
 <div class='row'>
-	<div class='col-9'>
+	<div class='col-8'>
 		<!-- Job Column -->
 
 <?php foreach ($forms as $form) : ?>
@@ -106,12 +106,12 @@ $status = $form->get('STATUS')->getValue();
 <?php endforeach; ?>
 
 	</div>
-	<div class='col'>
+	<div class='col-4'>
 		<div class='row'>
 			<div class='col border rounded m-2 p-2'>
 				<!-- Roster Column -->
 				<?php 
-				    echo $this->partial('base/subtable', [
+				    echo $this->partial('roster/subtable', [
 				        'title' => 'Roster',
 				        'data' => $roster_data,
 				        'params' => [
@@ -131,6 +131,24 @@ $status = $form->get('STATUS')->getValue();
 				                'action' => 'ascend',
 				                'label' => 'Ascend',
 				                'route' => 'job/default',
+				                'key' => 'UUID',
+				            ],
+				            [
+				                'action' => 'interested',
+				                'label' => 'Interested',
+				                'route' => 'job/default',
+				                'key' => 'UUID',
+				            ],
+				            [
+				                'action' => 'notinterested',
+				                'label' => 'Not Interested',
+				                'route' => 'job/default',
+				                'key' => 'UUID',
+				            ],
+				            [
+				                'action' => 'clear',
+				                'label' => 'Clear',
+				                'route' => 'roster/default',
 				                'key' => 'UUID',
 				            ],
 				        ],

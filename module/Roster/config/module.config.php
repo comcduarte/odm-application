@@ -5,6 +5,7 @@ namespace Roster;
 
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
+use Roster\Listener\RosterListener;
 
 return [
     'router' => [
@@ -101,6 +102,7 @@ return [
             'roster-model-adapter' => 'model-adapter',
         ],
         'factories' => [
+            Listener\RosterListener::class => Listener\Factory\RosterListenerFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -113,7 +115,7 @@ return [
     ],
     'view_manager' => [
         'template_map' => [
-            
+            'roster/subtable' => __DIR__ . '/../view/roster/partial/subtable.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

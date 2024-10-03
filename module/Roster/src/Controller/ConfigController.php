@@ -20,6 +20,7 @@ class ConfigController extends AbstractConfigController
         $ddl = [];
         
         $ddl[] = new DropTable('roster');
+        $ddl[] = new DropTable('roster_audit');
         
         foreach ($ddl as $obj) {
             try {
@@ -42,6 +43,23 @@ class ConfigController extends AbstractConfigController
         
         $ddl->addColumn(new Varchar('EMP_UUID', 36, TRUE));
         $ddl->addColumn(new Integer('POSITION', TRUE));
+        
+        $ddl->addConstraint(new PrimaryKey('UUID'));
+        
+        $this->processDdl($ddl);
+        unset($ddl);
+        
+        /******************************
+         * Roster Audit
+         ******************************/
+        $ddl = new CreateTable('roster_audit');
+        $ddl = $this->addStandardFields($ddl);
+        
+        $ddl->addColumn(new Varchar('EMP_UUID', 36, TRUE));
+        $ddl->addColumn(new Integer('LAST_POS', TRUE));
+        $ddl->addColumn(new Integer('CURR_POS', TRUE));
+        $ddl->addColumn(new Varchar('ACTION', 255, TRUE));
+        $ddl->addColumn(new Varchar('USER', 36, TRUE));
         
         $ddl->addConstraint(new PrimaryKey('UUID'));
         

@@ -226,9 +226,22 @@ class JobController extends AbstractBaseController
         
         $rm = new Roster($this->adapter);
         $rm->read(['EMP_UUID' => $emp_uuid]);
+            $LAST_POS = $rm->POSITION;
         $rm->POSITION = 99999;
         $rm->update();
         $rm->organize();
+        $rm->read(['EMP_UUID' => $emp_uuid]);
+            $CURR_POS = $rm->POSITION;
+        
+        $params = [
+            'EMP_UUID' => $emp_uuid,
+            'ACTION' => 'assigned',
+            'USER' => $this->currentUser(),
+            'LAST_POS' => $LAST_POS,
+            'CURR_POS' => $CURR_POS,
+        ];
+        
+        $this->getEventManager()->trigger('roster.update', $this, $params);
                 
         $url = $this->getRequest()->getHeader('Referer')->getUri();
         return $this->redirect()->toUrl($url);
@@ -242,10 +255,22 @@ class JobController extends AbstractBaseController
         //-- Move to bottom of the list --//
         $rm = new Roster($this->adapter);
         $rm->read(['EMP_UUID' => $emp_uuid]);
+            $LAST_POS = $rm->POSITION;
         $rm->POSITION = 99999;
         $rm->update();
         $rm->organize();
+        $rm->read(['EMP_UUID' => $emp_uuid]);
+            $CURR_POS = $rm->POSITION;
+            
+        $params = [
+            'EMP_UUID' => $emp_uuid, 
+            'ACTION' => 'refused', 
+            'USER' => $this->currentUser(),
+            'LAST_POS' => $LAST_POS,
+            'CURR_POS' => $CURR_POS,
+        ];
         
+        $this->getEventManager()->trigger('roster.update', $this, $params);
         
         $url = $this->getRequest()->getHeader('Referer')->getUri();
         return $this->redirect()->toUrl($url);
@@ -256,17 +281,82 @@ class JobController extends AbstractBaseController
         $emp_uuid = $this->params()->fromRoute('uuid', 0);
         $this->flashMessenger()->addSuccessMessage("Ascended $emp_uuid");
         
-        //-- Move to bottom of the list --//
+        //-- Move to top of the list --//
         $rm = new Roster($this->adapter);
         $rm->read(['EMP_UUID' => $emp_uuid]);
+        $LAST_POS = $rm->POSITION;
         $rm->POSITION = 1;
         $rm->update();
         $rm->organize();
+        $rm->read(['EMP_UUID' => $emp_uuid]);
+        $CURR_POS = $rm->POSITION;
+        
+        $params = [
+            'EMP_UUID' => $emp_uuid,
+            'ACTION' => 'ascended',
+            'USER' => $this->currentUser(),
+            'LAST_POS' => $LAST_POS,
+            'CURR_POS' => $CURR_POS,
+        ];
+        
+        $this->getEventManager()->trigger('roster.update', $this, $params);
         
         
         $url = $this->getRequest()->getHeader('Referer')->getUri();
         return $this->redirect()->toUrl($url);
     }
+    
+    public function interestedAction()
+    {
+        $emp_uuid = $this->params()->fromRoute('uuid', 0);
+        $this->flashMessenger()->addErrorMessage("Interested $emp_uuid");
+        
+        //-- Move to bottom of the list --//
+        $rm = new Roster($this->adapter);
+        $rm->read(['EMP_UUID' => $emp_uuid]);
+        $rm->STATUS = Roster::INTERESTED_STATUS;
+        $rm->update();
+        
+        $params = [
+            'EMP_UUID' => $emp_uuid,
+            'ACTION' => 'interested',
+            'USER' => $this->currentUser(),
+            'LAST_POS' => $rm->POSITION,
+            'CURR_POS' => $rm->POSITION,
+        ];
+        
+        $this->getEventManager()->trigger('roster.update', $this, $params);
+        
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
+    }
+    
+    public function notinterestedAction()
+    {
+        $emp_uuid = $this->params()->fromRoute('uuid', 0);
+        $this->flashMessenger()->addErrorMessage("Not Interested $emp_uuid");
+        
+        //-- Move to bottom of the list --//
+        $rm = new Roster($this->adapter);
+        $rm->read(['EMP_UUID' => $emp_uuid]);
+        $rm->STATUS = Roster::NOTINTERESTED_STATUS;
+        $rm->update();
+        
+        $params = [
+            'EMP_UUID' => $emp_uuid,
+            'ACTION' => 'notinterested',
+            'USER' => $this->currentUser(),
+            'LAST_POS' => $rm->POSITION,
+            'CURR_POS' => $rm->POSITION,
+        ];
+        
+        $this->getEventManager()->trigger('roster.update', $this, $params);
+        
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
+    }
+    
+    
     
     public function filterAction()
     {

@@ -66,9 +66,9 @@ return [
                 'syslog' => [
                     'name' => \Laminas\Log\Writer\Syslog::class,
                     'options' => [
-                        'application' => 'CHRONOS',
+                        'application' => 'PDH',
                         'formatter' => [
-                            'name' => \Laminas\Log\Formatter\Simple::class,
+                            'name' => \Laminas\Log\Formatter\Json::class,
                             'options' => [
                                 'format' => '%priorityName%: %message% %extra%',
                                 'dateTimeFormat' => 'c',

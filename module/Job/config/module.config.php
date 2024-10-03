@@ -134,6 +134,8 @@ return [
                         'label' => 'Job',
                         'class' => 'dropdown-submenu',
                         'route' => 'job',
+                        'resource' => 'job/default',
+                        'privilege' => 'menu',
                         'order' => 90,
                         'pages' => [
                             [
