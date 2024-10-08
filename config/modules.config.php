@@ -36,4 +36,5 @@ return [
     'Settings',
     'User',
     'Roster',
+    'Session',
 ];

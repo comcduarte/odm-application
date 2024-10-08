@@ -29,7 +29,8 @@
 		"laminas/laminas-authentication" : "~2.16",
 		"dassociates/html" : "dev-develop",
 		"dassociates/actionmenu" : "dev-develop",
-		"neilime/twbs-helper-module" : "~6.0"
+		"neilime/twbs-helper-module" : "~6.0",
+		"laminas/laminas-cli" : "~1.10"
 	},
 	"require-dev" : {
 		"dealerdirect/phpcodesniffer-composer-installer" : "^1.0",
@@ -51,7 +52,8 @@
 			"Contact\\" : "module/Contact/src",
 			"Job\\" : "module/Job/src",
 			"Employee\\" : "module/Employee/src",
-			"Roster\\" : "module/Roster/src"
+			"Roster\\" : "module/Roster/src",
+			"Session\\" : "module/Session/src"
 		}
 	},
 	"autoload-dev" : {
