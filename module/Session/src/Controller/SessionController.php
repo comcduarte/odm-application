@@ -9,8 +9,10 @@ use Job\Model\Job;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Where;
 use Laminas\View\Model\ViewModel;
+use Roster\Model\Roster;
 use Session\Form\SelectJobForm;
 use Session\Model\Session;
+use Session\Model\SessionResponse;
 
 class SessionController extends AbstractBaseController
 {
@@ -21,6 +23,8 @@ class SessionController extends AbstractBaseController
         $view = new ViewModel();
         $view = parent::updateAction();
         $view->setTemplate('session/update');
+        
+        $session_uuid = $this->params()->fromRoute(strtolower($this->model->getPrimaryKey()),0);
         
         $user = $this->currentUser();
         
@@ -37,12 +41,13 @@ class SessionController extends AbstractBaseController
          ****************************************/
         $job = new Job($this->adapter);
         $where = new Where();
-        $where->equalTo('job.STATUS', Job::ACTIVE_STATUS);
+        $where->equalTo('job.STATUS', Job::ACTIVE_STATUS)->equalTo('SESSION_UUID', $session_uuid);
         
         $select = new Select();
         $select->columns([
             'REQUESTED_START', 'REQUESTED_END'
         ]);
+        $select->from($job->getTableName());
         $select->join('job_company', 'job_company.UUID = job.COMPANY_UUID', ['NAME']);
         $select->join('job_type', 'job_type.UUID = job.TYPE_UUID', ['TYPE']);
         $select->join('session_job' , 'job.UUID = session_job.JOB_UUID', ['UUID']);
@@ -63,6 +68,7 @@ class SessionController extends AbstractBaseController
         
         $session_job_form->setJobs($jobs);
         $session_job_form->init();
+        $session_job_form->get('UUID')->setValue($session_uuid);
         
         $session_job_params = [
             'title' => 'Select Jobs',
@@ -73,6 +79,29 @@ class SessionController extends AbstractBaseController
             ],
         ];
         $view->setVariable('session_job_params', $session_job_params);
+        
+        
+        $session_response = new SessionResponse($this->adapter);
+        $where = new Where();
+        $where->equalTo('SESSION_UUID', $this->model->UUID);
+        $records = $session_response->fetchAll($where);
+        $view->setVariable('total', count($records));
+        
+        /****************************************
+         * ROSTER
+         ****************************************/
+        $roster = new Roster($this->adapter);
+        $roster_data = $roster->fetchEntities();
+        $view->setVariable('roster_data', $roster_data);
+        unset($roster);
+        unset($roster_data);
+        
+        
+        /****************************************
+         * FUNCTIONS
+         ****************************************/
+        $view->setVariable('session_uuid', $this->model->UUID);
+        
         
         return $view;
     }
@@ -92,7 +121,7 @@ class SessionController extends AbstractBaseController
                      * @var Session $session
                      */
                     $session = $this->model;
-                    $session->read(['UUID' => 'uuid']);
+                    $session->read(['UUID' => $data['UUID']]);
                     $session->addJob($job_uuid);
                 }
             }

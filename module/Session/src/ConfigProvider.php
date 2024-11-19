@@ -31,6 +31,30 @@ class ConfigProvider
     {
         return [
             'routes' => [
+                'response' => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/response',
+                        'defaults' => [
+                            'action'     => 'index',
+                            'controller' => Controller\ResponseController::class,
+                        ],
+                    ],
+                    'may_terminate' => TRUE,
+                    'child_routes' => [
+                        'default' => [
+                            'type' => Segment::class,
+                            'priority' => -100,
+                            'options' => [
+                                'route' => '/[:action[/:uuid]]',
+                                'defaults' => [
+                                    'action' => 'index',
+                                    'controller' => Controller\ResponseController::class,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
                 'session' => [
                     'type'    => Literal::class,
                     'options' => [
@@ -61,6 +85,29 @@ class ConfigProvider
                                 'defaults' => [
                                     'action' => 'index',
                                     'controller' => Controller\SessionController::class,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'session_rest' => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/session/rest',
+                        'defaults' => [
+                            'controller' => Controller\SessionRestfulController::class,
+                        ],
+                    ],
+                    'may_terminate' => TRUE,
+                    'child_routes' => [
+                        'default' => [
+                            'type' => Segment::class,
+                            'priority' => -100,
+                            'options' => [
+                                'route' => '/[:action[/:uuid]]',
+                                'defaults' => [
+                                    'action' => 'index',
+                                    'controller' => Controller\SessionRestfulController::class,
                                 ],
                             ],
                         ],

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Session\Form;
 
+use Components\Form\Element\Uuid;
 use Laminas\Form\Form;
 use Laminas\Form\Element\Checkbox;
 use Laminas\Form\Element\Csrf;
@@ -58,6 +59,19 @@ class SelectJobForm extends Form
                 ],
             ],['priority' => 100]);
         }
+        
+        $this->add([
+            'name' => 'UUID',
+            'type' => Uuid::class,
+            'attributes' => [
+                'id' => 'UUID',
+                'class' => 'form-control',
+                'required' => 'true',
+            ],
+            'options' => [
+                'label' => 'UUID',
+            ],
+        ],['priority' => 0]);
         
         $this->add(new Csrf('SECURITY'),['priority' => 0]);
         

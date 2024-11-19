@@ -1,0 +1,23 @@
+<div class="card mb-4">
+	<?php $this->form->prepare(); ?>
+    <?php echo $this->form()->openTag($this->form); ?>
+
+	<div class="card-body">
+		<?php echo $this->formCollection($this->form); ?>
+		<div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">4 Hour Day</label>
+        </div>
+        <div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+  <label class="form-check-label" for="flexSwitchCheckDefault">8 Hour Day</label>
+</div>
+        <div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+  <label class="form-check-label" for="flexSwitchCheckDefault">4 Hour Evening</label>
+</div>
+        
+		
+	</div>
+	<?php echo $this->form()->closeTag($this->form); ?>
+</div>

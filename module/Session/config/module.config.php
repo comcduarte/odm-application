@@ -9,7 +9,9 @@ return [
     'controllers' => [
         'factories' => [
             Controller\ConfigController::class => Controller\Factory\ConfigControllerFactory::class,
+            Controller\ResponseController::class => InvokableFactory::class,
             Controller\SessionController::class => Controller\Factory\SessionControllerFactory::class,
+            Controller\SessionRestfulController::class => Controller\Factory\SessionRestfulControllerFactory::class,
         ],
     ],
     'form_elements' => [
@@ -27,6 +29,9 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+        'strategies' => [
+            'ViewJsonStrategy',
         ],
     ],
 ];

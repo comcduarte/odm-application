@@ -11,6 +11,7 @@ use Laminas\Db\Sql\Ddl\Column\Datetime;
 use Laminas\Db\Sql\Ddl\Column\Integer;
 use Laminas\Db\Sql\Ddl\Column\Varchar;
 use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
+use Laminas\Db\Sql\Ddl\Constraint\UniqueKey;
 
 class ConfigController extends AbstractConfigController
 {
@@ -20,6 +21,9 @@ class ConfigController extends AbstractConfigController
         $ddl = [];
         
         $ddl[] = new DropTable('session');
+        $ddl[] = new DropTable('session_job');
+        $ddl[] = new DropTable('session_response');
+        $ddl[] = new DropTable('session_log');
         
         foreach ($ddl as $obj) {
             try {
@@ -73,6 +77,23 @@ class ConfigController extends AbstractConfigController
         $ddl->addColumn(new Varchar('SESSION_UUID', 36, TRUE));
         $ddl->addColumn(new Varchar('EMP_UUID', 36, TRUE));
         $ddl->addColumn(new Integer('RESPONSE', TRUE));
+        
+        $ddl->addConstraint(new PrimaryKey('UUID'));
+        $ddl->addConstraint(new UniqueKey(['SESSION_UUID','EMP_UUID'], 'SESSION_EMP'));
+        
+        $this->processDdl($ddl);
+        unset($ddl);
+        
+        /******************************
+         * SESSION LOG
+         ******************************/
+        $ddl = new CreateTable('session_log');
+        $ddl = $this->addStandardFields($ddl);
+        
+        $ddl->addColumn(new Varchar('SESSION_UUID', 36, TRUE));
+        $ddl->addColumn(new Varchar('EMP_UUID', 36, TRUE));
+        $ddl->addColumn(new Varchar('ACTION', 36, TRUE));
+        $ddl->addColumn(new Varchar('VALUE', 36, TRUE));
         
         $ddl->addConstraint(new PrimaryKey('UUID'));
         
