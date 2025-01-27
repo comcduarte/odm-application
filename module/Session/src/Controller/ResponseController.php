@@ -26,4 +26,29 @@ class ResponseController extends AbstractActionController
         
         return $view;
     }
+    
+    public function responseAction()
+    {
+        $request = $this->getRequest();
+        
+        if ($request->isPost()) {
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+                );
+            
+            switch (true) {
+                case isset($post['YES']):
+                    break;
+                case isset($post['NO']):
+                    break;
+                default:
+                    throw new \Exception('Unable to parse post.');
+                    break;
+            }
+        }
+        
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
+    }
 }

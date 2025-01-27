@@ -1,0 +1,21 @@
+<?php $this->response_form->prepare(); ?>
+<?php $response_form->setAttribute('action', $this->url('response/default', ['action' => 'response']));?>
+<?php echo $this->form()->openTag($this->response_form); ?>
+<?php foreach ($sessions as $session) : ?>
+<div class="row">
+	<div class="col">
+		<div class="card h-100">
+            <h2 class="card-header"><?=$session['NAME']?></h2>
+            <div class="card-body">
+            	<p>There are <?=count($session['JOBS'])?> available.</p>
+            <?php if (! isset($responses[$session['UUID']])) : ?>
+                <?php echo $this->formCollection($this->response_form); ?>
+            <?php else: ?>
+            	<p>You indicated you are <?=$responses[$session['UUID']]?></p>
+            <?php endif; ?>
+            </div>
+        </div>
+	</div>
+</div>
+<?php endforeach; ?>
+<?php echo $this->form()->closeTag($this->response_form); ?>

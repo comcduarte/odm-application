@@ -169,7 +169,6 @@ class JobForm extends AbstractBaseForm
             'attributes' => [
                 'class' => 'form-control',
                 'id' => 'LOCATION',
-                'required' => 'true',
                 'placeholder' => '',
             ],
             'options' => [
@@ -207,7 +206,6 @@ class JobForm extends AbstractBaseForm
             'attributes' => [
                 'class' => 'form-select',
                 'id' => 'EMP_UUID',
-                'required' => 'true',
                 'placeholder' => '',
 //                 'disabled' => true,
             ],

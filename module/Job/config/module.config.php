@@ -146,6 +146,20 @@ return [
                                 'privilege' => 'create',
                             ],
                             [
+                                'label' => 'Add New City Job',
+                                'route' => 'job/default',
+                                'action' => 'create',
+                                'resource' => 'job/default',
+                                'privilege' => 'create',
+                            ],
+                            [
+                                'label' => 'Add New Private Duty Job',
+                                'route' => 'job/default',
+                                'action' => 'create',
+                                'resource' => 'job/default',
+                                'privilege' => 'create',
+                            ],
+                            [
                                 'label' => 'List Jobs',
                                 'route' => 'job/default',
                                 'action' => 'index',

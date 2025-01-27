@@ -9,6 +9,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\ConfigController::class => Controller\Factory\ConfigControllerFactory::class,
+            Controller\DashboardController::class => Controller\Factory\DashboardControllerFactory::class,
             Controller\ResponseController::class => InvokableFactory::class,
             Controller\SessionController::class => Controller\Factory\SessionControllerFactory::class,
             Controller\SessionRestfulController::class => Controller\Factory\SessionRestfulControllerFactory::class,

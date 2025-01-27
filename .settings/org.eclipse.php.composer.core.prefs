@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 org.eclipse.php.composer.corebuildpath.includes.excludes=<buildpathentry kind\="src" path\="vendor"/>\r\n
-org.eclipse.php.composer.corecomposer_phar=F\:\\Eclipse\\composer\\composer.2.5.8.phar
-org.eclipse.php.composer.corephp_executable=F\:\\Eclipse\\php\\php-8.2.13-Win32-vs16-x64\\php.exe
+org.eclipse.php.composer.corecomposer_phar=F\:\\Eclipse\\composer\\composer.2.8.1.phar
+org.eclipse.php.composer.corephp_executable=F\:\\Eclipse\\php\\php-8.3.9-Win32-vs16-x64\\php.exe
 org.eclipse.php.composer.coreuse_project_phar=false

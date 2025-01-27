@@ -77,6 +77,17 @@ class ConfigProvider
                                 ],
                             ],
                         ],
+                        'dashboard' => [
+                            'type' => Segment::class,
+                            'priority' => 100,
+                            'options' => [
+                                'route' => '/dashboard[/:action]',
+                                'defaults' => [
+                                    'action' => 'index',
+                                    'controller' => Controller\DashboardController::class,
+                                ],
+                            ],
+                        ],
                         'default' => [
                             'type' => Segment::class,
                             'priority' => -100,
@@ -144,6 +155,14 @@ class ConfigProvider
                         ],
                     ],
                 ],
+                'user-dashboard' => [
+                    'label' => 'User Dashboard',
+                    'class' => 'dropdown',
+                    'route' => 'session/dashboard',
+                    'resource' => 'session/dashboard',
+                    'privilege' => 'user',
+                    'action' => 'user',
+                ],
                 'settings' => [
                     'label' => 'Settings',
                     'pages' => [
@@ -165,6 +184,7 @@ class ConfigProvider
         return [
             'admin' => [
                 'session/default' => [],
+                'session/dashboard' => [],
                 'session/config' => [],
             ],
         ];
