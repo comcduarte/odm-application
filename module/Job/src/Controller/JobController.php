@@ -18,6 +18,7 @@ use Laminas\Db\Sql\Where;
 use Laminas\Form\Element\Textarea;
 use Laminas\View\Model\ViewModel;
 use Roster\Model\Roster;
+use Employee\Model\EmployeeModel;
 
 class JobController extends AbstractBaseController
 {
@@ -221,8 +222,19 @@ class JobController extends AbstractBaseController
    
     public function assignAction()
     {
-        $emp_uuid = $this->params()->fromRoute('uuid', 0);
-        $this->flashMessenger()->addInfoMessage("Assigned $emp_uuid");
+        $emp_uuid = $this->params()->fromPost('dragId', 0);
+        $job_uuid = $this->params()->fromPost('dropTarget', 0);
+        
+        $job = new Job($this->adapter);
+        $job->read(['UUID' => $job_uuid]);
+        
+        $job->EMP_UUID = $emp_uuid;
+        $job->update();
+        
+        $emp = new EmployeeModel($this->adapter);
+        $emp->read(['UUID' => $emp_uuid]);
+        
+        $this->flashMessenger()->addInfoMessage(sprintf('Assigned %s to %s', $emp->EMP_NUM, $job_uuid));
         
         $rm = new Roster($this->adapter);
         $rm->read(['EMP_UUID' => $emp_uuid]);

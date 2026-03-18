@@ -163,7 +163,7 @@ function sortTable(n) {
         	</thead>
         	<tbody>
         		<?php foreach ($this->data as $record) : ?>
-        		<tr>
+        		<tr class="drag-item" draggable="true" data-id="<?php echo $record['UUID']; ?>" data-name="EMP_UUID">
         			<?php foreach ($record as $key => $value) : ?>
         				<?php if (strpos($key, $this->primary_key) === 0 || $key == 'STATUS') { continue; } ?>
         				<td><?php echo "<span class='" . $classes[$record['STATUS']] . "'>$value</span>"; ?></td>

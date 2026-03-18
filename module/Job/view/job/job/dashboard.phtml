@@ -49,7 +49,7 @@ echo $this->form()->openTag($form);
 
 $status = $form->get('STATUS')->getValue();
 ?>
-<div class='row border border-<?=$color[$status]?> bg-<?=$color[$status]?>-subtle rounded m-2 p-2'>
+<div class='row border border-<?=$color[$status]?> bg-<?=$color[$status]?>-subtle rounded m-2 p-2 drop-zone' data-target="<?php echo $form->get('UUID')->getValue(); ?>">
 	<div class='<?=$column_classes?> col-lg-1'>
 		<?php echo $this->formRow($form->get('UUID')); ?>
 		<?php echo $this->formRow($form->get('STATUS')); ?>
@@ -159,6 +159,88 @@ $status = $form->get('STATUS')->getValue();
 		</div>
 	</div>
 </div>
+
+<style type="text/css">
+.drag-item {
+  cursor: grab;
+  padding: 10px;
+  background: #e0e0e0;
+  width: 120px;
+}
+
+.drop-zone {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px dashed #999;
+}
+
+.drop-zone.drag-over {
+  background: #d0ffd0;
+}
+</style>
+
+<form id="myForm" method="post" action="<?php echo $this->url('job/default', ['action' => 'assign']); ?>">
+  <input type="hidden" name="dragId" id="dragId">
+  <input type="hidden" name="dropTarget" id="dropTarget">
+</form>
+
+<script type="text/javascript">
+// Handle ALL draggable items
+document.querySelectorAll('.drag-item').forEach(item => {
+  item.addEventListener('dragstart', function (e) {
+    e.dataTransfer.setData('text/plain', JSON.stringify({
+      id: this.dataset.id,
+      name: this.dataset.name
+    }));
+
+    // Optional: style while dragging
+    this.classList.add('dragging');
+  });
+
+  item.addEventListener('dragend', function () {
+    this.classList.remove('dragging');
+  });
+});
+
+
+// Handle ALL drop zones
+document.querySelectorAll('.drop-zone').forEach(zone => {
+
+  zone.addEventListener('dragover', function (e) {
+    e.preventDefault(); // Required for drop
+  });
+
+  zone.addEventListener('dragenter', function () {
+    this.classList.add('drag-over');
+  });
+
+  zone.addEventListener('dragleave', function () {
+    this.classList.remove('drag-over');
+  });
+
+  zone.addEventListener('drop', function (e) {
+    e.preventDefault();
+    this.classList.remove('drag-over');
+
+    // Get dragged data
+    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+
+    // Get drop zone data
+    const dropTarget = this.dataset.target;
+
+    console.log("Dropped:", data.id, "onto", dropTarget);
+
+    // Fill form
+    document.getElementById('dragId').value = data.id;
+    document.getElementById('dropTarget').value = dropTarget;
+
+    // Submit form
+    document.getElementById('myForm').submit();
+  });
+
+});
+</script>
+
 
 
 <?php echo $this->partial('job/jobtype/create.phtml', ['form' => $add_job_type_form]); ?>
