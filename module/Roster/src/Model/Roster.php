@@ -39,7 +39,7 @@ class Roster extends AbstractBaseModel
         $select
             ->columns(['UUID' => 'EMP_UUID', '#' => 'POSITION', 'STATUS' => 'STATUS'])
             ->from('roster')
-            ->join('employees', 'employees.UUID = roster.EMP_UUID', ['EMP_NUM', 'FNAME', 'LNAME', 'EMAIL'], Join::JOIN_INNER);
+            ->join('employees', 'employees.UUID = roster.EMP_UUID', ['EMP_NUM', 'FNAME', 'LNAME'], Join::JOIN_INNER);
             
 //         $select->where(['roster.STATUS' => Roster::ACTIVE_STATUS]);
         $select->order('#');
