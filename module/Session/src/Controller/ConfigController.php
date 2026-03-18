@@ -12,6 +12,7 @@ use Laminas\Db\Sql\Ddl\Column\Integer;
 use Laminas\Db\Sql\Ddl\Column\Varchar;
 use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
 use Laminas\Db\Sql\Ddl\Constraint\UniqueKey;
+use Laminas\Db\Sql\Ddl\Column\Text;
 
 class ConfigController extends AbstractConfigController
 {
@@ -45,7 +46,7 @@ class ConfigController extends AbstractConfigController
         $ddl = $this->addStandardFields($ddl);
         
         $ddl->addColumn(new Varchar('NAME', 255, TRUE));
-        $ddl->addColumn(new Varchar('DESC', 25, TRUE));
+        $ddl->addColumn(new Text('DESC', 65535, TRUE));
         $ddl->addColumn(new Datetime('DATE_START', TRUE));
         $ddl->addColumn(new Datetime('DATE_CLOSE', TRUE));
         
