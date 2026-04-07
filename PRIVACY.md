@@ -4,25 +4,25 @@ _Last updated: April 06, 2026_
 
 ## Introduction
 
-Off Duty Management (“ODM,” “we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our Service.
+Off Duty Management (“ODM,” “we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use the Service.
 
 ## Information We Collect
 
-We may collect the following types of information:
+We may collect the following types of information during your use of the Service:
 
-Personal Information
+Personal Information:
 
-* Name
-* Email address
-* Phone number
-* Account credentials
+* Name;
+* Email address;
+* Phone number; and
+* Account credentials.
 
-Usage Information
+Usage Information:
 
-* Log data (IP address, browser type, device info)
+* Log data (IP address, browser type, device info); and
 * Activity within the Service
 
-Communication Data
+Communication Data:
 
 * Records of communications, including SMS interactions (e.g., opt-in, opt-out, HELP requests)
 
@@ -30,20 +30,20 @@ Communication Data
 
 We use your information to:
 
-* Provide and operate the Service
-* Manage user accounts
-* Send service-related communications, including SMS notifications
-* Ensure security and prevent fraud
-* Comply with legal obligations
+* Provide and operate the Service;
+* Manage user accounts;
+* Send service-related communications, including SMS notifications;
+* Ensure security and prevent fraud; and
+* Comply with legal obligations.
 
 ## SMS / Text Messaging
 
 If you opt in to receive SMS messages:
 
-* We will use your phone number to send transactional and service-related messages only (e.g., job assignments, alerts, account notifications)
-* We do not send marketing or promotional text messages
-* Message frequency may vary (up to 10 messages per day)
-* Message and data rates may apply
+* We will use your phone number to send transactional and service-related messages only (e.g., job assignments, alerts, account notifications);
+* We do not send marketing or promotional text messages;
+* Message frequency may vary (up to 10 messages per day); and
+* Message and data rates may apply.
 
 Opt-Out:
 You can opt out at any time by replying **STOP** to any message.
@@ -57,17 +57,17 @@ We do not sell your personal information.
 
 We may share information only:
 
-* With service providers that help operate the platform (e.g., hosting, messaging providers)
-* As required by law or legal process
-* To protect the rights and safety of ODM, users, or the public
+* With service providers that help operate the platform (e.g., hosting, messaging providers);
+* As required by law or legal process; and 
+* To protect the rights and safety of ODM, users, or the public, or as otherwise required by state or federal law.
 
 ## Data Retention
 
 We retain your information only as long as necessary to:
 
-* Provide the Service
-* Maintain required records (including SMS consent logs)
-* Comply with legal obligations
+* Provide the Service;
+* Maintain required records (including SMS consent logs); and
+* Comply with legal obligations.
 
 ## Data Security
 
@@ -77,9 +77,9 @@ We implement reasonable administrative, technical, and physical safeguards to pr
 
 You may:
 
-* Access or update your account information
-* Opt out of SMS communications at any time
-* Request account deletion (subject to legal obligations)
+* Access or update your account information;
+* Opt out of SMS communications at any time; and
+* Request account deletion (subject to legal obligations).
 
 ## Children’s Privacy
 
