@@ -8,8 +8,9 @@ use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\Sql;
-use Exception;
+use Laminas\Db\Sql\Predicate\Expression;
 use Laminas\EventManager\EventManagerAwareTrait;
+use Exception;
 
 class Roster extends AbstractBaseModel
 {
@@ -31,7 +32,7 @@ class Roster extends AbstractBaseModel
         $this->setPublicAttributes();
     }
     
-    public function fetchEntities()
+    public function fetchEntities($sessionId = null)
     {
         $sql = new Sql($this->adapter);
         
@@ -39,7 +40,19 @@ class Roster extends AbstractBaseModel
         $select
             ->columns(['UUID' => 'EMP_UUID', '#' => 'POSITION', 'STATUS' => 'STATUS'])
             ->from('roster')
-            ->join('employees', 'employees.UUID = roster.EMP_UUID', ['EMP_NUM', 'FNAME', 'LNAME'], Join::JOIN_INNER);
+            ->join('employees', 'employees.UUID = roster.EMP_UUID', ['EMP_NUM', 'FNAME', 'LNAME'], Join::JOIN_INNER)
+            ->join('user_employee', 'user_employee.EMP_UUID = roster.EMP_UUID',[], Join::JOIN_LEFT);
+            
+            $select->join(
+                'session_response',
+                new Expression(
+                    'session_response.EMP_UUID = user_employee.USER_UUID AND session_response.SESSION_UUID = ?',
+                    [$sessionId]
+                    ),
+                ['RESPONSE'],
+                Join::JOIN_LEFT
+                );
+            
             
 //         $select->where(['roster.STATUS' => Roster::ACTIVE_STATUS]);
         $select->order('#');

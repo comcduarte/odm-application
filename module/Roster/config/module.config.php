@@ -5,7 +5,7 @@ namespace Roster;
 
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Roster\Listener\RosterListener;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 
 return [
     'router' => [
@@ -21,6 +21,16 @@ return [
                 ],
                 'may_terminate' => TRUE,
                 'child_routes' => [
+                    'import' => [
+                        'type' => Segment::class,
+                        'priority' => 100,
+                        'options' => [
+                            'route' => '/import[/:action]',
+                            'defaults' => [
+                                'controller' => Controller\ImportController::class,
+                            ],
+                        ],
+                    ],
                     'config' => [
                         'type' => Segment::class,
                         'priority' => 100,
@@ -63,6 +73,7 @@ return [
         'factories' => [
             Controller\ConfigController::class => Controller\Factory\ConfigControllerFactory::class,
             Controller\RosterController::class => Controller\Factory\RosterControllerFactory::class,
+            Controller\ImportController::class => ReflectionBasedAbstractFactory::class,
         ],
     ],
     'form_elements' => [
