@@ -29,6 +29,7 @@ class JobForm extends AbstractBaseForm
                 Job::OPEN_STATUS => 'Open',
                 Job::UNABLE_TO_FILL_STATUS => 'Unable to Fill',
                 Job::WORK_REASON_STATUS => 'Work Reason',
+                Job::ASSIGNED_STATUS => 'Assigned',
             ],
         ]);
         $status->setAttribute('class', 'form-select form-select-sm');
@@ -123,7 +124,7 @@ class JobForm extends AbstractBaseForm
             'options' => [
                 'label' => 'Company',
                 'database_adapter' => $this->adapter,
-                'database_table' => 'job_company',
+                'database_table' => 'company',
                 'database_id_column' => 'UUID',
                 'database_value_columns' => [
                     'NAME',

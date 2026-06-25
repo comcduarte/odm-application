@@ -30,6 +30,7 @@ class JobController extends AbstractBaseController
     {
         $start = $this->params()->fromRoute('start_date', 0);
         $end = $this->params()->fromRoute('end_date',0);
+        $session = $this->params()->fromRoute('session', 0);
         if (!$start) {
             $this->date = new \DateTime('now',new \DateTimeZone('UTC'));
             $start = $this->date->format('Y-m-d');
@@ -45,16 +46,22 @@ class JobController extends AbstractBaseController
         $job_div->class = 'form-control';
         
         /****************************************
-         * Retrieve Date
+         * Retrieve Jobs
          ****************************************/
-        
         /**
          * Jobs
          * @var $job Job
          */
         $job = $this->model;
+        
+        $select = new Select();
+        $select->from($job->getTableName());
+        $select->join('session_job', 'session_job.JOB_UUID = job.UUID', ['SESSION_UUID','JOB_UUID']);
+        
         $where = new Where();
-        $where->between('REQUESTED_START', "$start 00:00:00", "$end 23:59:59");
+        $where->between('REQUESTED_START', "$start 00:00:00", "$end 23:59:59")->and->equalTo('SESSION_UUID', $session);
+        
+        $job->setSelect($select);
         $jobs = $job->fetchAll($where);
         
         if (! $jobs) {
@@ -141,7 +148,11 @@ class JobController extends AbstractBaseController
          * Roster
          */
         $roster = new Roster($this->adapter);
-        $roster_data = $roster->fetchEntities();
+        $roster_data = $roster->fetchEntities($session);
+        foreach ($roster_data as $x => $y) {
+            $roster_data[$x]['STATUS'] = ($y['RESPONSE'] > 0) ? $y['RESPONSE']: 1;
+            unset($roster_data[$x]['RESPONSE']);
+        }
         $view->setVariable('roster_data', $roster_data);
         unset($roster);
         unset($roster_data);
@@ -150,10 +161,12 @@ class JobController extends AbstractBaseController
          * Date Filter
          */
         $date_filter = new FilterForm('DATE-FILTER');
+        $date_filter->setDbAdapter($this->adapter);
         $date_filter->init();
         
         $date_filter->get('START_DATE')->setValue($start);
         $date_filter->get('END_DATE')->setValue($end);
+        $date_filter->get('SESSION_UUID')->setvalue($session);
         $view->setVariable('date_filter_form', $date_filter);
         
         $view->setVariables([
@@ -170,6 +183,10 @@ class JobController extends AbstractBaseController
     public function createAction()
     {
         $view = new ViewModel();
+        
+        if ($type = $this->params()->fromRoute('uuid')) {
+            $this->form->remove('TYPE_UUID');
+        }
         
         $view = parent::createAction();
         
@@ -229,6 +246,7 @@ class JobController extends AbstractBaseController
         $job->read(['UUID' => $job_uuid]);
         
         $job->EMP_UUID = $emp_uuid;
+        $job->STATUS = Job::ASSIGNED_STATUS;
         $job->update();
         
         $emp = new EmployeeModel($this->adapter);
@@ -368,11 +386,10 @@ class JobController extends AbstractBaseController
         return $this->redirect()->toUrl($url);
     }
     
-    
-    
     public function filterAction()
     {
         $form = new FilterForm();
+        $form->setDbAdapter($this->adapter);
         $form->init();
         
         $request = $this->getRequest();
@@ -383,7 +400,7 @@ class JobController extends AbstractBaseController
                 );
         }
         
-        return $this->redirect()->toRoute('job/dashboard', ['start_date' => $data['START_DATE'], 'end_date' => $data['END_DATE']]);
+        return $this->redirect()->toRoute('job/dashboard', ['start_date' => $data['START_DATE'], 'end_date' => $data['END_DATE'], 'session' => $data['SESSION_UUID']]);
     }
     
     private function generateCommentSection(string $UUID) : Textarea
@@ -404,6 +421,7 @@ class JobController extends AbstractBaseController
             ],
         ]);
         $textarea->setAttribute('class', 'form-control');
+        $textarea->setAttribute('style', 'height: 160px;');
         $textarea->setLabel('Comments');
         
         $annotations = $this->getAnnotations($this->model->getTableName(), $UUID);

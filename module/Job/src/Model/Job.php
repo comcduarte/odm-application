@@ -11,6 +11,7 @@ class Job extends AbstractBaseModel
     const CANCELED_STATUS = 4;
     const UNABLE_TO_FILL_STATUS = 5;
     const WORK_REASON_STATUS = 6;
+    const ASSIGNED_STATUS = 7;
     
     /**
      * 

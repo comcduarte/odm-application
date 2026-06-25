@@ -11,6 +11,7 @@ $color = [
     4 => 'danger',
     5 => 'success',
     6 => 'secondary',
+    7 => 'info',
 ];
 ?>
 
@@ -21,6 +22,9 @@ $date_filter_form->setAttribute('action', $this->url('job/default', ['action' =>
 echo $this->form()->openTag($date_filter_form);
 ?>
 	<div class="row">
+		<div class="col">
+			<?php echo $this->formSelect($date_filter_form->get('SESSION_UUID')); ?>
+		</div>
 		<div class="col">
 			<?php echo $this->formRow($date_filter_form->get('START_DATE')); ?>
 		</div>
@@ -83,9 +87,6 @@ $status = $form->get('STATUS')->getValue();
 		<div class='row'>
 			<?php echo $this->formRow($form->get('REQUESTED_END')); ?>
 		</div>
-		<div class='row'>
-			<?php echo $this->formRow($form->get('EMP_UUID')); ?>
-		</div>
 	</div>
 	<div class='<?=$column_classes?>'>
 <!-- 
@@ -98,6 +99,9 @@ $status = $form->get('STATUS')->getValue();
     		<div class='input-group'>
     			<?php echo $this->formTextarea($form->get('COMMENT')); ?>
     			<a href="" class='btn btn-outline-secondary' data-bs-toggle="modal" data-bs-target="#add_annotation_<?php echo $form->get('UUID')->getValue(); ?>">Add</a>
+    		</div>
+    		<div class='row'>
+    			<?php echo $this->formRow($form->get('EMP_UUID')); ?>
     		</div>
 		</div>
 	</div>
