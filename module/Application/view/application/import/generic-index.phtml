@@ -6,7 +6,7 @@
 		<div class="card mb-4">
 			<div class="card-header d-flex justify-content-between">
         		<div>
-        			<b>Contact Upload</b>
+        			<b>Upload</b>
         		</div>
         	</div>
         	<div class="card-body">
@@ -24,7 +24,7 @@
 		<div class="card mb-4">
 			<div class="card-header d-flex justify-content-between">
         		<div>
-        			<b>Contact Flush</b><span class="badge text-bg-primary mx-2"><?=$total?></span>
+        			<b>Flush</b><span class="badge text-bg-primary mx-2"><?=$total?></span>
         		</div>
         	</div>
         	<div class="card-body">
@@ -43,7 +43,7 @@
 		<div class="card mb-4">
 			<div class="card-header d-flex justify-content-between">
         		<div>
-        			<b>Contact Process</b>
+        			<b>Process</b>
         		</div>
         	</div>
         	<div class="card-body">
@@ -59,7 +59,7 @@
 		<div class="card mb-4">
 			<div class="card-header d-flex justify-content-between">
         		<div>
-        			<b>Contact Import</b>
+        			<b>Import</b>
         		</div>
         	</div>
         	<div class="card-body">
@@ -81,6 +81,7 @@
 var count = 1;
 var total = <?=$total?>;
 var host = window.location.host;
+var url = new URL(window.location.href);
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -171,15 +172,15 @@ async function api(endpoint, progressElementId, options = {}) {
     console.log('Process finished or stopped.');
 }
 
-jQuery(function ($) {
-    $('#BEGIN-PROCESS').on('click', function (event) {
-        event.preventDefault();
-        api('process', 'PROCESS-PROGRESS');
+jQuery(function($) {
+    $('#BEGIN-PROCESS').on('click', function(event) {
+    	event.preventDefault();
+    	api('process', 'PROCESS-PROGRESS');
     });
-
-    $('#BEGIN-IMPORT').on('click', function (event) {
-        event.preventDefault();
-        api('import', 'IMPORT-PROGRESS');
+    
+    $('#BEGIN-IMPORT').on('click', function(event) {
+    	event.preventDefault();
+    	api('import', 'IMPORT-PROGRESS');
     });
 });
 </script>
