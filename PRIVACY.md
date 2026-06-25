@@ -55,6 +55,8 @@ Reply **HELP** or contact us at developer@middletownct.gov.
 
 We do not sell your personal information.
 
+No mobile information will be shared with third party/affliates for marketing or promotional purposes.
+
 We may share information only:
 
 * With service providers that help operate the platform (e.g., hosting, messaging providers);
