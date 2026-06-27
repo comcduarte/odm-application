@@ -9,6 +9,7 @@ use Job\Model\Job;
 use Laminas\Db\Adapter\AdapterAwareTrait;
 use Laminas\Form\Element\Checkbox;
 use Laminas\Form\Element\DateTimeLocal;
+use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
 use Roster\Model\Roster;
 
@@ -128,7 +129,9 @@ class JobForm extends AbstractBaseForm
                 'database_id_column' => 'UUID',
                 'database_value_columns' => [
                     'NAME',
+                    'TYPE_UUID',
                 ],
+                'database_optgroup_column' => 'TYPE_UUID',
             ],
         ],['priority' => 100]);
         
@@ -148,12 +151,22 @@ class JobForm extends AbstractBaseForm
         
         $this->add([
             'name' => 'TYPE_UUID',
+            'type' => Hidden::class,
+            'attributes' => [
+                'id' => 'TYPE_UUID',
+                'value' => '',
+            ],
+        ],['priority' => 100]);
+        
+        $this->add([
+            'name' => 'TYPE_SELECT',
             'type' => DatabaseSelect::class,
             'attributes' => [
                 'class' => 'form-select',
-                'id' => 'TYPE_UUID',
+                'id' => 'TYPE_SELECT',
                 'required' => 'true',
                 'placeholder' => '',
+                'onchange' => 'document.getElementById("TYPE_UUID").value = this.value',
             ],
             'options' => [
                 'label' => 'Job Type',

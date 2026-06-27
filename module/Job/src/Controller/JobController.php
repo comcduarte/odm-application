@@ -9,6 +9,7 @@ use Components\Controller\AbstractBaseController;
 use Components\Form\Element\DatabaseSelect;
 use Contact\Form\ContactForm;
 use Dassociates\Html\Div;
+use Employee\Model\EmployeeModel;
 use Job\Form\FilterForm;
 use Job\Form\JobForm;
 use Job\Form\JobTypeForm;
@@ -18,7 +19,6 @@ use Laminas\Db\Sql\Where;
 use Laminas\Form\Element\Textarea;
 use Laminas\View\Model\ViewModel;
 use Roster\Model\Roster;
-use Employee\Model\EmployeeModel;
 
 class JobController extends AbstractBaseController
 {
@@ -185,7 +185,18 @@ class JobController extends AbstractBaseController
         $view = new ViewModel();
         
         if ($type = $this->params()->fromRoute('uuid')) {
-            $this->form->remove('TYPE_UUID');
+            $this->form->remove('TYPE_SELECT');
+            
+            $this->model->TYPE_UUID = $type;
+            
+            /**
+             * 
+             * @var \Laminas\Form\Element\Select $COMPANY
+             */
+            $COMPANY = $this->form->get('COMPANY_UUID');
+            $options = $COMPANY->getValueOptions();
+            $x = $options[$type];
+            $COMPANY->setValueOptions($options[$type]['options']);
         }
         
         $view = parent::createAction();
