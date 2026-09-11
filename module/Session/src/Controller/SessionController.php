@@ -48,7 +48,7 @@ class SessionController extends AbstractBaseController
             'REQUESTED_START', 'REQUESTED_END'
         ]);
         $select->from($job->getTableName());
-        $select->join('job_company', 'job_company.UUID = job.COMPANY_UUID', ['NAME']);
+        $select->join('company', 'company.UUID = job.COMPANY_UUID', ['NAME']);
         $select->join('job_type', 'job_type.UUID = job.TYPE_UUID', ['TYPE']);
         $select->join('session_job' , 'job.UUID = session_job.JOB_UUID', ['UUID']);
         $job->setSelect($select);

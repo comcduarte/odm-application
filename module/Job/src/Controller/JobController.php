@@ -56,10 +56,14 @@ class JobController extends AbstractBaseController
         
         $select = new Select();
         $select->from($job->getTableName());
-        $select->join('session_job', 'session_job.JOB_UUID = job.UUID', ['SESSION_UUID','JOB_UUID']);
         
         $where = new Where();
-        $where->between('REQUESTED_START', "$start 00:00:00", "$end 23:59:59")->and->equalTo('SESSION_UUID', $session);
+        $where->between('REQUESTED_START', "$start 00:00:00", "$end 23:59:59");
+        
+        if ($session) {
+            $where->and->equalTo('SESSION_UUID', $session);
+            $select->join('session_job', 'session_job.JOB_UUID = job.UUID', ['SESSION_UUID','JOB_UUID']);
+        }
         
         $job->setSelect($select);
         $jobs = $job->fetchAll($where);

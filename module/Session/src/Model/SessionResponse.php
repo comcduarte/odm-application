@@ -8,6 +8,10 @@ use Laminas\Db\Adapter\Adapter;
 
 class SessionResponse extends AbstractBaseModel
 {
+    const UNSENT_STATUS     = 3;
+    const SENT_STATUS       = 4;
+    const RECEIVED_STATUS   = 5;
+    
     public $SESSION_UUID;
     public $EMP_UUID;
     public $RESPONSE;
