@@ -9,3 +9,4 @@ phpunit.xml
 .settings/
 .project
 .buildpath
+venv/
