@@ -1,0 +1,31 @@
+site_name: Off Duty Management Documentation
+site_url: https://odm.middletownct.gov
+theme:
+   name: readthedocs
+site_dir: ../public/docs/
+extra_javascript:
+   - https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js
+   - js/mermaid-init.js
+extra_css:
+   - css/custom.css
+use_directory_urls: false
+watch:
+   - docs
+exclude_docs: |
+   demo/
+   install/
+markdown_extensions:
+   - attr_list
+   - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+   - pymdownx.inlinehilite
+   - pymdownx.snippets
+   - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+   - toc:
+      toc_depth: 2
